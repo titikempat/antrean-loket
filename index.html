@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sistem Antrean Puskesmas Mentikan</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
+}
+
+body{
+background:#eef8f1;
+color:#222;
+}
+
+header{
+background:linear-gradient(135deg,#1fa855,#168947);
+padding:20px;
+text-align:center;
+color:white;
+box-shadow:0 5px 15px rgba(0,0,0,.15);
+}
+
+header img{
+width:90px;
+margin-bottom:10px;
+}
+
+header h1{
+font-size:32px;
+}
+
+.container{
+max-width:1400px;
+margin:auto;
+padding:20px;
+}
+
+.section-title{
+margin-top:20px;
+margin-bottom:20px;
+font-size:28px;
+color:#168947;
+font-weight:bold;
+}
+
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+gap:20px;
+}
+
+.card{
+background:white;
+border-radius:25px;
+padding:25px;
+box-shadow:0 5px 20px rgba(0,0,0,.08);
+transition:.2s;
+}
+
+.card:hover{
+transform:translateY(-5px);
+}
+
+.card h2{
+text-align:center;
+margin-bottom:20px;
+color:#168947;
+}
+
+.btn{
+width:100%;
+padding:20px;
+margin-bottom:15px;
+border:none;
+border-radius:18px;
+background:linear-gradient(135deg,#27c567,#159348);
+color:white;
+font-size:22px;
+font-weight:bold;
+cursor:pointer;
+transition:.2s;
+}
+
+.btn:hover{
+transform:scale(1.03);
+}
+
+.dashboard{
+margin-top:40px;
+background:white;
+padding:25px;
+border-radius:25px;
+box-shadow:0 5px 20px rgba(0,0,0,.08);
+overflow:auto;
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+}
+
+th{
+background:#169348;
+color:white;
+padding:15px;
+font-size:18px;
+}
+
+td{
+padding:15px;
+text-align:center;
+border-bottom:1px solid #ddd;
+font-size:16px;
+}
+
+.call-btn{
+padding:12px 20px;
+border:none;
+border-radius:12px;
+background:#1e88e5;
+color:white;
+font-weight:bold;
+cursor:pointer;
+}
+
+.display-tv{
+margin-top:40px;
+}
+
+.display-grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+gap:20px;
+}
+
+.display-card{
+background:#052016;
+color:white;
+padding:30px;
+border-radius:25px;
+text-align:center;
+box-shadow:0 5px 20px rgba(0,0,0,.2);
+}
+
+.display-card h3{
+font-size:28px;
+margin-bottom:15px;
+}
+
+.nomor{
+font-size:58px;
+font-weight:bold;
+color:#5effa0;
+}
+
+.running-text{
+margin-top:30px;
+background:#169348;
+color:white;
+padding:15px;
+border-radius:15px;
+font-size:22px;
+}
+
+#printArea{
+display:none;
+}
+
+@media print{
+
+body *{
+visibility:hidden;
+}
+
+#printArea,
+#printArea *{
+visibility:visible;
+}
+
+#printArea{
+position:absolute;
+left:0;
+top:0;
+display:block;
+width:57mm;
+font-size:14px;
+text-align:center;
+}
+
+}
+
+@media(max-width:768px){
+
+header h1{
+font-size:24px;
+}
+
+.btn{
+font-size:18px;
+}
+
+.nomor{
+font-size:42px;
+}
+
+}
+
+</style>
+</head>
+<body>
+
+<header>
+
+<img src="https://cdn-icons-png.flaticon.com/512/2966/2966486.png">
+
+<h1>UPT PUSKESMAS MENTIKAN</h1>
+
+<p>Sistem Antrean Digital</p>
+
+</header>
+
+<div class="container">
+
+<div class="section-title">
+AMBIL ANTREAN
+</div>
+
+<div class="grid">
+
+<div class="card">
+<h2>KLASTER 2</h2>
+<button class="btn" onclick="ambil('POLI KIA')">POLI KIA</button>
+</div>
+
+<div class="card">
+<h2>KLASTER 3</h2>
+<button class="btn" onclick="ambil('POLI DEWASA')">POLI DEWASA</button>
+<button class="btn" onclick="ambil('POLI LANSIA')">POLI LANSIA</button>
+</div>
+
+<div class="card">
+<h2>KLASTER 4</h2>
+<button class="btn" onclick="ambil('POLI GIZI')">POLI GIZI</button>
+<button class="btn" onclick="ambil('POLI TB')">POLI TB</button>
+</div>
+
+<div class="card">
+<h2>KLASTER 5</h2>
+<button class="btn" onclick="ambil('POLI GIGI')">POLI GIGI</button>
+</div>
+
+</div>
+
+<div class="dashboard">
+
+<div class="section-title">
+DASHBOARD PETUGAS
+</div>
+
+<table>
+<thead>
+<tr>
+<th>POLI</th>
+<th>TOTAL</th>
+<th>DIPANGGIL</th>
+<th>SISA</th>
+<th>AKSI</th>
+</tr>
+</thead>
+<tbody id="tbody"></tbody>
+</table>
+
+</div>
+
+<div class="display-tv">
+
+<div class="section-title">
+DISPLAY TV ANTREAN
+</div>
+
+<div class="display-grid" id="displayGrid"></div>
+
+<div class="running-text">
+<marquee>
+SELAMAT DATANG DI UPT PUSKESMAS MENTIKAN • MOHON MENUNGGU HINGGA NOMOR DIPANGGIL
+</marquee>
+</div>
+
+</div>
+
+</div>
+
+<div id="printArea"></div>
+
+<script>
+
+function ambil(poli){
+
+  google.script.run.withSuccessHandler(res=>{
+
+    document.getElementById('printArea').innerHTML = `
+
+      <div style="padding:10px;width:57mm;">
+
+        <h2>UPT PUSKESMAS MENTIKAN</h2>
+
+        <hr>
+
+        <h3>${res.poli}</h3>
+
+        <h1 style="font-size:42px">${res.nomor}</h1>
+
+        <p>${res.waktu}</p>
+
+        <hr>
+
+        <p>Mohon menunggu hingga dipanggil</p>
+
+      </div>
+
+    `;
+
+    window.print();
+
+    loadDashboard();
+    loadDisplay();
+
+  }).ambilAntrean(poli)
+}
+
+function loadDashboard(){
+
+  google.script.run.withSuccessHandler(res=>{
+
+    let html='';
+
+    res.forEach(r=>{
+
+      html += `
+
+      <tr>
+        <td>${r.poli}</td>
+        <td>${r.total}</td>
+        <td>${r.dipanggil}</td>
+        <td>${r.sisa}</td>
+        <td>
+          <button class="call-btn" onclick="panggil('${r.poli}')">
+            PANGGIL
+          </button>
+        </td>
+      </tr>
+
+      `;
+
+    })
+
+    document.getElementById('tbody').innerHTML = html;
+
+  }).getDashboard()
+}
+
+function panggil(poli){
+
+  google.script.run.withSuccessHandler(res=>{
+
+    if(!res){
+      alert('Tidak ada antrean');
+      return;
+    }
+
+    const teks = `Nomor antrean ${res.nomor} menuju ${res.poli}`;
+
+    const speech = new SpeechSynthesisUtterance(teks);
+
+    speech.lang = 'id-ID';
+
+    speech.rate = 0.9;
+
+    window.speechSynthesis.speak(speech);
+
+    loadDashboard();
+    loadDisplay();
+
+  }).panggilAntrean(poli)
+}
+
+function loadDisplay(){
+
+  google.script.run.withSuccessHandler(res=>{
+
+    let html='';
+
+    for(let i=1;i<res.length;i++){
+
+      html += `
+
+      <div class="display-card">
+        <h3>${res[i][0]}</h3>
+        <div class="nomor">${res[i][1]}</div>
+      </div>
+
+      `;
+    }
+
+    document.getElementById('displayGrid').innerHTML = html;
+
+  }).getDisplay()
+}
+
+loadDashboard();
+loadDisplay();
+
+setInterval(()=>{
+  loadDashboard();
+  loadDisplay();
+},3000)
+
+</script>
+
+</body>
+</html>
