@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Sistem Antrean Puskesmas Mentikan</title>
 
 <style>
@@ -173,6 +174,14 @@ font-size:22px;
 display:none;
 }
 
+.loading{
+text-align:center;
+padding:20px;
+font-size:18px;
+color:#168947;
+font-weight:bold;
+}
+
 @media print{
 
 body *{
@@ -236,27 +245,49 @@ AMBIL ANTREAN
 
 <div class="card">
 <h2>KLASTER 2</h2>
-<button class="btn" onclick="ambil('POLI KIA')">POLI KIA</button>
+<button class="btn" onclick="ambil('POLI KIA')">
+POLI KIA
+</button>
 </div>
 
 <div class="card">
 <h2>KLASTER 3</h2>
-<button class="btn" onclick="ambil('POLI DEWASA')">POLI DEWASA</button>
-<button class="btn" onclick="ambil('POLI LANSIA')">POLI LANSIA</button>
+
+<button class="btn" onclick="ambil('POLI DEWASA')">
+POLI DEWASA
+</button>
+
+<button class="btn" onclick="ambil('POLI LANSIA')">
+POLI LANSIA
+</button>
+
 </div>
 
 <div class="card">
 <h2>KLASTER 4</h2>
-<button class="btn" onclick="ambil('POLI GIZI')">POLI GIZI</button>
-<button class="btn" onclick="ambil('POLI TB')">POLI TB</button>
+
+<button class="btn" onclick="ambil('POLI GIZI')">
+POLI GIZI
+</button>
+
+<button class="btn" onclick="ambil('POLI TB')">
+POLI TB
+</button>
+
 </div>
 
 <div class="card">
 <h2>KLASTER 5</h2>
-<button class="btn" onclick="ambil('POLI GIGI')">POLI GIGI</button>
+
+<button class="btn" onclick="ambil('POLI GIGI')">
+POLI GIGI
+</button>
+
 </div>
 
 </div>
+
+
 
 <div class="dashboard">
 
@@ -265,6 +296,7 @@ DASHBOARD PETUGAS
 </div>
 
 <table>
+
 <thead>
 <tr>
 <th>POLI</th>
@@ -274,10 +306,22 @@ DASHBOARD PETUGAS
 <th>AKSI</th>
 </tr>
 </thead>
-<tbody id="tbody"></tbody>
+
+<tbody id="tbody">
+
+<tr>
+<td colspan="5" class="loading">
+Loading...
+</td>
+</tr>
+
+</tbody>
+
 </table>
 
 </div>
+
+
 
 <div class="display-tv">
 
@@ -289,7 +333,8 @@ DISPLAY TV ANTREAN
 
 <div class="running-text">
 <marquee>
-SELAMAT DATANG DI UPT PUSKESMAS MENTIKAN • MOHON MENUNGGU HINGGA NOMOR DIPANGGIL
+SELAMAT DATANG DI UPT PUSKESMAS MENTIKAN •
+MOHON MENUNGGU HINGGA NOMOR DIPANGGIL
 </marquee>
 </div>
 
@@ -297,13 +342,35 @@ SELAMAT DATANG DI UPT PUSKESMAS MENTIKAN • MOHON MENUNGGU HINGGA NOMOR DIPANGG
 
 </div>
 
+
+
 <div id="printArea"></div>
+
+
 
 <script>
 
-function ambil(poli){
 
-  google.script.run.withSuccessHandler(res=>{
+
+// ==========================================
+// URL WEB APP GAS
+// ==========================================
+const API = 'https://script.google.com/macros/s/AKfycbwo6qOPEUKLYzJExKcelALylF4jmAt8ynBfkGl1e_Aj9rPR-xJycM460WpVtyC2S3KN/exec';
+
+
+
+// ==========================================
+// AMBIL ANTREAN
+// ==========================================
+async function ambil(poli){
+
+  try{
+
+    const response = await fetch(
+      `${API}?action=ambil&poli=${encodeURIComponent(poli)}`
+    );
+
+    const res = await response.json();
 
     document.getElementById('printArea').innerHTML = `
 
@@ -315,13 +382,17 @@ function ambil(poli){
 
         <h3>${res.poli}</h3>
 
-        <h1 style="font-size:42px">${res.nomor}</h1>
+        <h1 style="font-size:42px">
+          ${res.nomor}
+        </h1>
 
         <p>${res.waktu}</p>
 
         <hr>
 
-        <p>Mohon menunggu hingga dipanggil</p>
+        <p>
+          Mohon menunggu hingga dipanggil
+        </p>
 
       </div>
 
@@ -332,97 +403,203 @@ function ambil(poli){
     loadDashboard();
     loadDisplay();
 
-  }).ambilAntrean(poli)
+  }catch(err){
+
+    alert('Gagal mengambil antrean');
+
+    console.log(err);
+
+  }
+
 }
 
-function loadDashboard(){
 
-  google.script.run.withSuccessHandler(res=>{
 
-    let html='';
+// ==========================================
+// LOAD DASHBOARD
+// ==========================================
+async function loadDashboard(){
+
+  try{
+
+    const response = await fetch(
+      `${API}?action=dashboard`
+    );
+
+    const res = await response.json();
+
+    let html = '';
 
     res.forEach(r=>{
 
       html += `
 
       <tr>
+
         <td>${r.poli}</td>
+
         <td>${r.total}</td>
+
         <td>${r.dipanggil}</td>
+
         <td>${r.sisa}</td>
+
         <td>
-          <button class="call-btn" onclick="panggil('${r.poli}')">
+
+          <button
+            class="call-btn"
+            onclick="panggil('${r.poli}')">
+
             PANGGIL
+
           </button>
+
         </td>
+
       </tr>
 
       `;
 
-    })
+    });
 
     document.getElementById('tbody').innerHTML = html;
 
-  }).getDashboard()
+  }catch(err){
+
+    console.log(err);
+
+  }
+
 }
 
-function panggil(poli){
 
-  google.script.run.withSuccessHandler(res=>{
+
+// ==========================================
+// PANGGIL ANTREAN
+// ==========================================
+async function panggil(poli){
+
+  try{
+
+    const response = await fetch(
+      `${API}?action=panggil&poli=${encodeURIComponent(poli)}`
+    );
+
+    const res = await response.json();
 
     if(!res){
+
       alert('Tidak ada antrean');
+
       return;
+
     }
 
-    const teks = `Nomor antrean ${res.nomor} menuju ${res.poli}`;
+    // STOP suara sebelumnya
+    window.speechSynthesis.cancel();
 
-    const speech = new SpeechSynthesisUtterance(teks);
+    // TEKS SUARA
+    const teks =
+      `Nomor antrean ${res.nomor}, menuju ${res.poli}`;
+
+    const speech =
+      new SpeechSynthesisUtterance(teks);
 
     speech.lang = 'id-ID';
 
     speech.rate = 0.9;
 
+    speech.pitch = 1;
+
+    speech.volume = 1;
+
     window.speechSynthesis.speak(speech);
 
     loadDashboard();
+
     loadDisplay();
 
-  }).panggilAntrean(poli)
+  }catch(err){
+
+    console.log(err);
+
+    alert('Gagal memanggil antrean');
+
+  }
+
 }
 
-function loadDisplay(){
 
-  google.script.run.withSuccessHandler(res=>{
 
-    let html='';
+// ==========================================
+// LOAD DISPLAY TV
+// ==========================================
+async function loadDisplay(){
 
-    for(let i=1;i<res.length;i++){
+  try{
+
+    const response = await fetch(
+      `${API}?action=display`
+    );
+
+    const res = await response.json();
+
+    let html = '';
+
+    res.forEach(r=>{
 
       html += `
 
       <div class="display-card">
-        <h3>${res[i][0]}</h3>
-        <div class="nomor">${res[i][1]}</div>
+
+        <h3>${r[0]}</h3>
+
+        <div class="nomor">
+          ${r[1]}
+        </div>
+
       </div>
 
       `;
-    }
+
+    });
 
     document.getElementById('displayGrid').innerHTML = html;
 
-  }).getDisplay()
+  }catch(err){
+
+    console.log(err);
+
+  }
+
 }
 
+
+
+// ==========================================
+// AUTO LOAD
+// ==========================================
 loadDashboard();
+
 loadDisplay();
 
+
+
+// ==========================================
+// AUTO REFRESH
+// ==========================================
 setInterval(()=>{
+
   loadDashboard();
+
   loadDisplay();
-},3000)
+
+},3000);
+
+
 
 </script>
 
 </body>
 </html>
+```
