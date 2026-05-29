@@ -8,166 +8,469 @@
 
 <style>
 
+:root{
+--bg:#f3f7f4;
+--text:#1e293b;
+--shadow:0 10px 30px rgba(0,0,0,.06);
+--radius:24px;
+}
+
 *{
 margin:0;
 padding:0;
 box-sizing:border-box;
-font-family:Arial,sans-serif;
+font-family:'Segoe UI',sans-serif;
 }
 
 body{
-background:#eef8f1;
-color:#222;
+background:var(--bg);
+color:var(--text);
 }
 
+
+
+/* =========================
+HEADER
+========================= */
+
 header{
-background:linear-gradient(135deg,#1fa855,#168947);
-padding:20px;
+background:
+linear-gradient(
+135deg,
+#16a34a,
+#15803d
+);
+padding:35px 20px;
 text-align:center;
 color:white;
-box-shadow:0 5px 15px rgba(0,0,0,.15);
+box-shadow:0 5px 20px rgba(0,0,0,.1);
+position:relative;
+overflow:hidden;
+}
+
+header::after{
+content:'';
+position:absolute;
+width:300px;
+height:300px;
+background:rgba(255,255,255,.08);
+border-radius:50%;
+top:-150px;
+right:-80px;
 }
 
 header img{
-width:90px;
-margin-bottom:10px;
+width:85px;
+margin-bottom:12px;
+filter:drop-shadow(0 5px 10px rgba(0,0,0,.2));
 }
 
 header h1{
-font-size:32px;
+font-size:34px;
+font-weight:800;
+letter-spacing:.5px;
 }
 
+header p{
+margin-top:8px;
+font-size:17px;
+opacity:.9;
+}
+
+
+
+/* =========================
+LAYOUT
+========================= */
+
 .container{
-max-width:1400px;
+max-width:1450px;
 margin:auto;
-padding:20px;
+padding:30px 20px;
 }
 
 .section-title{
-margin-top:20px;
-margin-bottom:20px;
-font-size:28px;
-color:#168947;
-font-weight:bold;
+font-size:30px;
+font-weight:800;
+color:#166534;
+margin-bottom:25px;
+letter-spacing:.5px;
 }
+
+
+
+/* =========================
+GRID
+========================= */
 
 .grid{
 display:grid;
-grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-gap:20px;
+grid-template-columns:
+repeat(auto-fit,minmax(260px,1fr));
+gap:24px;
 }
 
+
+
+/* =========================
+CARD
+========================= */
+
 .card{
-background:white;
-border-radius:25px;
-padding:25px;
-box-shadow:0 5px 20px rgba(0,0,0,.08);
-transition:.2s;
+background:rgba(255,255,255,.75);
+backdrop-filter:blur(10px);
+border:1px solid rgba(255,255,255,.5);
+border-radius:var(--radius);
+padding:28px;
+box-shadow:var(--shadow);
+transition:.25s;
+position:relative;
+overflow:hidden;
+}
+
+.card::before{
+content:'';
+position:absolute;
+width:120px;
+height:120px;
+background:rgba(22,163,74,.06);
+border-radius:50%;
+top:-40px;
+right:-40px;
 }
 
 .card:hover{
-transform:translateY(-5px);
+transform:translateY(-6px);
 }
 
 .card h2{
 text-align:center;
-margin-bottom:20px;
-color:#168947;
+margin-bottom:22px;
+font-size:18px;
+font-weight:800;
+color:#15803d;
+letter-spacing:1px;
 }
+
+
+
+/* =========================
+BUTTON
+========================= */
 
 .btn{
 width:100%;
-padding:20px;
-margin-bottom:15px;
+padding:18px;
+margin-bottom:14px;
 border:none;
 border-radius:18px;
-background:linear-gradient(135deg,#27c567,#159348);
 color:white;
 font-size:22px;
-font-weight:bold;
+font-weight:800;
 cursor:pointer;
 transition:.2s;
 }
 
 .btn:hover{
-transform:scale(1.03);
+transform:translateY(-2px) scale(1.02);
 }
 
+.btn:active{
+transform:scale(.98);
+}
+
+
+
+/* =========================
+WARNA TOMBOL
+========================= */
+
+.btn-kia{
+background:
+linear-gradient(
+135deg,
+#ec4899,
+#be185d
+);
+box-shadow:
+0 8px 18px rgba(236,72,153,.25);
+}
+
+.btn-dewasa{
+background:
+linear-gradient(
+135deg,
+#3b82f6,
+#1d4ed8
+);
+box-shadow:
+0 8px 18px rgba(59,130,246,.25);
+}
+
+.btn-lansia{
+background:
+linear-gradient(
+135deg,
+#f59e0b,
+#d97706
+);
+box-shadow:
+0 8px 18px rgba(245,158,11,.25);
+}
+
+.btn-gizi{
+background:
+linear-gradient(
+135deg,
+#10b981,
+#047857
+);
+box-shadow:
+0 8px 18px rgba(16,185,129,.25);
+}
+
+.btn-tb{
+background:
+linear-gradient(
+135deg,
+#ef4444,
+#b91c1c
+);
+box-shadow:
+0 8px 18px rgba(239,68,68,.25);
+}
+
+.btn-gigi{
+background:
+linear-gradient(
+135deg,
+#8b5cf6,
+#6d28d9
+);
+box-shadow:
+0 8px 18px rgba(139,92,246,.25);
+}
+
+
+
+/* =========================
+DASHBOARD
+========================= */
+
 .dashboard{
-margin-top:40px;
+margin-top:45px;
 background:white;
-padding:25px;
-border-radius:25px;
-box-shadow:0 5px 20px rgba(0,0,0,.08);
+border-radius:28px;
+padding:30px;
+box-shadow:var(--shadow);
 overflow:auto;
 }
 
 table{
 width:100%;
 border-collapse:collapse;
+overflow:hidden;
+border-radius:20px;
 }
 
 th{
-background:#169348;
+background:
+linear-gradient(
+135deg,
+#16a34a,
+#15803d
+);
 color:white;
-padding:15px;
-font-size:18px;
+padding:18px;
+font-size:17px;
+font-weight:700;
 }
 
 td{
-padding:15px;
+padding:18px;
 text-align:center;
-border-bottom:1px solid #ddd;
+border-bottom:1px solid #eef2f7;
 font-size:16px;
+font-weight:600;
+}
+
+tr:hover{
+background:#f8fafc;
 }
 
 .call-btn{
-padding:12px 20px;
+padding:12px 22px;
 border:none;
-border-radius:12px;
-background:#1e88e5;
+border-radius:14px;
+background:
+linear-gradient(
+135deg,
+#3b82f6,
+#2563eb
+);
 color:white;
-font-weight:bold;
+font-weight:700;
 cursor:pointer;
+transition:.2s;
+box-shadow:
+0 5px 14px rgba(59,130,246,.25);
 }
 
+.call-btn:hover{
+transform:scale(1.04);
+}
+
+
+
+/* =========================
+DISPLAY TV
+========================= */
+
 .display-tv{
-margin-top:40px;
+margin-top:45px;
 }
 
 .display-grid{
 display:grid;
-grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-gap:20px;
+grid-template-columns:
+repeat(auto-fit,minmax(270px,1fr));
+gap:24px;
 }
+
+
+
+/* =========================
+DISPLAY CARD
+========================= */
 
 .display-card{
-background:#052016;
+padding:35px;
+border-radius:28px;
 color:white;
-padding:30px;
-border-radius:25px;
 text-align:center;
-box-shadow:0 5px 20px rgba(0,0,0,.2);
+box-shadow:
+0 12px 30px rgba(0,0,0,.15);
+position:relative;
+overflow:hidden;
+transition:.25s;
 }
 
+.display-card:hover{
+transform:translateY(-5px);
+}
+
+.display-card::after{
+content:'';
+position:absolute;
+width:180px;
+height:180px;
+background:rgba(255,255,255,.08);
+border-radius:50%;
+top:-60px;
+right:-60px;
+}
+
+
+
+/* =========================
+WARNA DISPLAY
+========================= */
+
+.kia{
+background:
+linear-gradient(
+135deg,
+#ec4899,
+#be185d
+);
+}
+
+.dewasa{
+background:
+linear-gradient(
+135deg,
+#3b82f6,
+#1d4ed8
+);
+}
+
+.lansia{
+background:
+linear-gradient(
+135deg,
+#f59e0b,
+#d97706
+);
+}
+
+.gizi{
+background:
+linear-gradient(
+135deg,
+#10b981,
+#047857
+);
+}
+
+.tb{
+background:
+linear-gradient(
+135deg,
+#ef4444,
+#b91c1c
+);
+}
+
+.gigi{
+background:
+linear-gradient(
+135deg,
+#8b5cf6,
+#6d28d9
+);
+}
+
+
+
+/* =========================
+DISPLAY TEXT
+========================= */
+
 .display-card h3{
-font-size:28px;
-margin-bottom:15px;
+font-size:24px;
+margin-bottom:18px;
+font-weight:700;
+letter-spacing:.5px;
 }
 
 .nomor{
-font-size:58px;
-font-weight:bold;
-color:#5effa0;
+font-size:68px;
+font-weight:900;
+letter-spacing:2px;
+text-shadow:
+0 4px 10px rgba(0,0,0,.2);
 }
+
+
+
+/* =========================
+RUNNING TEXT
+========================= */
 
 .running-text{
 margin-top:30px;
-background:#169348;
+padding:18px;
+border-radius:18px;
+background:
+linear-gradient(
+135deg,
+#16a34a,
+#15803d
+);
 color:white;
-padding:15px;
-border-radius:15px;
-font-size:22px;
+font-size:20px;
+font-weight:700;
+box-shadow:var(--shadow);
 }
 
 #printArea{
@@ -181,6 +484,12 @@ font-size:18px;
 color:#168947;
 font-weight:bold;
 }
+
+
+
+/* =========================
+PRINT
+========================= */
 
 @media print{
 
@@ -205,18 +514,33 @@ text-align:center;
 
 }
 
+
+
+/* =========================
+RESPONSIVE
+========================= */
+
 @media(max-width:768px){
 
 header h1{
+font-size:25px;
+}
+
+.section-title{
 font-size:24px;
 }
 
 .btn{
 font-size:18px;
+padding:16px;
 }
 
 .nomor{
-font-size:42px;
+font-size:52px;
+}
+
+.display-card{
+padding:28px;
 }
 
 }
@@ -242,49 +566,84 @@ font-size:42px;
 AMBIL ANTREAN
 </div>
 
+
+
 <div class="grid">
 
 <div class="card">
+
 <h2>KLASTER 2</h2>
-<button class="btn" onclick="ambil('POLI KIA')">
+
+<button
+class="btn btn-kia"
+onclick="ambil('POLI KIA')">
+
 POLI KIA
+
 </button>
+
 </div>
+
+
 
 <div class="card">
 
 <h2>KLASTER 3</h2>
 
-<button class="btn" onclick="ambil('POLI DEWASA')">
+<button
+class="btn btn-dewasa"
+onclick="ambil('POLI DEWASA')">
+
 POLI DEWASA
+
 </button>
 
-<button class="btn" onclick="ambil('POLI LANSIA')">
+<button
+class="btn btn-lansia"
+onclick="ambil('POLI LANSIA')">
+
 POLI LANSIA
+
 </button>
 
 </div>
+
+
 
 <div class="card">
 
 <h2>KLASTER 4</h2>
 
-<button class="btn" onclick="ambil('POLI GIZI')">
+<button
+class="btn btn-gizi"
+onclick="ambil('POLI GIZI')">
+
 POLI GIZI
+
 </button>
 
-<button class="btn" onclick="ambil('POLI TB')">
+<button
+class="btn btn-tb"
+onclick="ambil('POLI TB')">
+
 POLI TB
+
 </button>
 
 </div>
+
+
 
 <div class="card">
 
 <h2>KLASTER 5</h2>
 
-<button class="btn" onclick="ambil('POLI GIGI')">
+<button
+class="btn btn-gigi"
+onclick="ambil('POLI GIGI')">
+
 POLI GIGI
+
 </button>
 
 </div>
@@ -354,8 +713,6 @@ MOHON MENUNGGU HINGGA NOMOR DIPANGGIL
 
 <div id="printArea"></div>
 
-
-
 <script>
 
 const API =
@@ -364,28 +721,51 @@ const API =
 
 
 // =====================================
+// MENYIMPAN JUMLAH PANGGIL
+// =====================================
+let callCounts = {};
+
+
+
+// =====================================
+// NAMA LOKET
+// =====================================
+const namaLoket = {
+
+'POLI KIA' : 'Poli KIA 1',
+'POLI DEWASA' : 'Poli Dewasa 1',
+'POLI LANSIA' : 'Poli Lansia 1',
+'POLI GIZI' : 'Poli Gizi 1',
+'POLI TB' : 'Poli Tuberkulosis 1',
+'POLI GIGI' : 'Poli Gigi 1'
+
+};
+
+
+
+// =====================================
 // FETCH JSON
 // =====================================
 async function getJSON(url){
 
-  const response = await fetch(url,{
-    method:'GET',
-    cache:'no-store'
-  });
+const response = await fetch(url,{
+method:'GET',
+cache:'no-store'
+});
 
-  const text = await response.text();
+const text = await response.text();
 
-  try{
+try{
 
-    return JSON.parse(text);
+return JSON.parse(text);
 
-  }catch(err){
+}catch(err){
 
-    console.log(text);
+console.log(text);
 
-    throw new Error('Response bukan JSON');
+throw new Error('Response bukan JSON');
 
-  }
+}
 
 }
 
@@ -396,59 +776,59 @@ async function getJSON(url){
 // =====================================
 async function ambil(poli){
 
-  try{
+try{
 
-    const res = await getJSON(
-      `${API}?action=ambil&poli=${encodeURIComponent(poli)}`
-    );
+const res = await getJSON(
+`${API}?action=ambil&poli=${encodeURIComponent(poli)}`
+);
 
-    if(!res || !res.nomor){
+if(!res || !res.nomor){
 
-      alert('Gagal mengambil antrean');
+alert('Gagal mengambil antrean');
 
-      return;
+return;
 
-    }
+}
 
-    document.getElementById('printArea').innerHTML = `
+document.getElementById('printArea').innerHTML = `
 
-      <div style="padding:10px;width:57mm;">
+<div style="padding:10px;width:57mm;">
 
-        <h2>UPT PUSKESMAS MENTIKAN</h2>
+<h2>UPT PUSKESMAS MENTIKAN</h2>
 
-        <hr>
+<hr>
 
-        <h3>${res.poli}</h3>
+<h3>${res.poli}</h3>
 
-        <h1 style="font-size:42px">
-          ${res.nomor}
-        </h1>
+<h1 style="font-size:42px">
+${res.nomor}
+</h1>
 
-        <p>${res.waktu}</p>
+<p>${res.waktu}</p>
 
-        <hr>
+<hr>
 
-        <p>
-          Mohon menunggu hingga dipanggil
-        </p>
+<p>
+Mohon menunggu hingga dipanggil
+</p>
 
-      </div>
+</div>
 
-    `;
+`;
 
-    window.print();
+window.print();
 
-    loadDashboard();
+loadDashboard();
 
-    loadDisplay();
+loadDisplay();
 
-  }catch(err){
+}catch(err){
 
-    console.log(err);
+console.log(err);
 
-    alert('Gagal mengambil antrean');
+alert('Gagal mengambil antrean');
 
-  }
+}
 
 }
 
@@ -459,53 +839,128 @@ async function ambil(poli){
 // =====================================
 async function loadDashboard(){
 
-  try{
+try{
 
-    const res = await getJSON(
-      `${API}?action=dashboard`
-    );
+const res = await getJSON(
+`${API}?action=dashboard`
+);
 
-    let html = '';
+let html = '';
 
-    res.forEach(r=>{
+res.forEach(r=>{
 
-      html += `
+if(callCounts[r.poli] == undefined){
+callCounts[r.poli] = 0;
+}
 
-      <tr>
+const sudahMax = callCounts[r.poli] >= 3;
 
-        <td>${r.poli}</td>
+html += `
 
-        <td>${r.total}</td>
+<tr>
 
-        <td>${r.dipanggil}</td>
+<td>${r.poli}</td>
 
-        <td>${r.sisa}</td>
+<td>${r.total}</td>
 
-        <td>
+<td>${r.dipanggil}</td>
 
-          <button
-            class="call-btn"
-            onclick="panggil('${r.poli}')">
+<td>${r.sisa}</td>
 
-            PANGGIL
+<td>
 
-          </button>
+<div style="
+display:flex;
+gap:8px;
+justify-content:center;
+align-items:center;
+flex-wrap:wrap;
+">
 
-        </td>
+<button
+class="call-btn"
+${sudahMax ? 'disabled' : ''}
+style="
+opacity:${sudahMax ? '.5':'1'};
+cursor:${sudahMax ? 'not-allowed':'pointer'};
+"
+onclick="panggil('${r.poli}')">
 
-      </tr>
+${sudahMax ? 'MAKSIMAL' : 'PANGGIL'}
 
-      `;
+</button>
 
-    });
+<div style="
+font-size:13px;
+font-weight:700;
+color:#64748b;
+">
 
-    document.getElementById('tbody').innerHTML = html;
+${callCounts[r.poli]}/3x
 
-  }catch(err){
+</div>
 
-    console.log(err);
+</div>
 
-  }
+</td>
+
+</tr>
+
+`;
+
+});
+
+document.getElementById('tbody').innerHTML = html;
+
+}catch(err){
+
+console.log(err);
+
+}
+
+}
+
+
+
+// =====================================
+// SUARA
+// =====================================
+function buatSuara(teks){
+
+window.speechSynthesis.cancel();
+
+const speech =
+new SpeechSynthesisUtterance(teks);
+
+speech.lang = 'id-ID';
+
+
+// normal dan jelas
+speech.rate = 0.85;
+
+
+// natural
+speech.pitch = 1;
+
+
+// volume sedang
+speech.volume = 1;
+
+
+// pilih voice indonesia
+const voices =
+window.speechSynthesis.getVoices();
+
+const indoVoice =
+voices.find(v =>
+v.lang.includes('id')
+);
+
+if(indoVoice){
+speech.voice = indoVoice;
+}
+
+window.speechSynthesis.speak(speech);
 
 }
 
@@ -516,48 +971,57 @@ async function loadDashboard(){
 // =====================================
 async function panggil(poli){
 
-  try{
+try{
 
-    const res = await getJSON(
-      `${API}?action=panggil&poli=${encodeURIComponent(poli)}`
-    );
+if(callCounts[poli] >= 3){
 
-    if(!res){
+alert(
+'Maksimal panggilan 3x'
+);
 
-      alert('Tidak ada antrean');
+return;
 
-      return;
+}
 
-    }
+const res = await getJSON(
+`${API}?action=panggil&poli=${encodeURIComponent(poli)}`
+);
 
-    window.speechSynthesis.cancel();
+if(!res){
 
-    const speech =
-      new SpeechSynthesisUtterance(
-        `Nomor antrean ${res.nomor}, menuju ${res.poli}`
-      );
+alert('Tidak ada antrean');
 
-    speech.lang = 'id-ID';
+return;
 
-    speech.rate = 0.9;
+}
 
-    speech.pitch = 1;
+callCounts[poli]++;
 
-    speech.volume = 1;
 
-    window.speechSynthesis.speak(speech);
+// NAMA LOKET
+const tujuan =
+namaLoket[res.poli] || res.poli;
 
-    loadDashboard();
 
-    loadDisplay();
+// SUARA NATURAL
+const teks =
 
-  }catch(err){
+`Nomor antrean ${res.nomor}. Silakan menuju ke loket ${tujuan}`;
 
-    console.log(err);
 
-    alert('Gagal memanggil antrean');
+buatSuara(teks);
 
-  }
+loadDashboard();
+
+loadDisplay();
+
+}catch(err){
+
+console.log(err);
+
+alert('Gagal memanggil antrean');
+
+}
 
 }
 
@@ -568,43 +1032,78 @@ async function panggil(poli){
 // =====================================
 async function loadDisplay(){
 
-  try{
+try{
 
-    const res = await getJSON(
-      `${API}?action=display`
-    );
+const res = await getJSON(
+`${API}?action=display`
+);
 
-    let html = '';
+let html = '';
 
-    res.forEach(r=>{
+res.forEach(r=>{
 
-      html += `
+let cls = '';
 
-      <div class="display-card">
+if(r[0] == 'POLI KIA'){
+cls = 'kia';
+}
 
-        <h3>${r[0]}</h3>
+else if(r[0] == 'POLI DEWASA'){
+cls = 'dewasa';
+}
 
-        <div class="nomor">
-          ${r[1]}
-        </div>
+else if(r[0] == 'POLI LANSIA'){
+cls = 'lansia';
+}
 
-      </div>
+else if(r[0] == 'POLI GIZI'){
+cls = 'gizi';
+}
 
-      `;
+else if(r[0] == 'POLI TB'){
+cls = 'tb';
+}
 
-    });
+else if(r[0] == 'POLI GIGI'){
+cls = 'gigi';
+}
 
-    document.getElementById(
-      'displayGrid'
-    ).innerHTML = html;
+html += `
 
-  }catch(err){
+<div class="display-card ${cls}">
 
-    console.log(err);
+<h3>${r[0]}</h3>
 
-  }
+<div class="nomor">
+${r[1]}
+</div>
+
+</div>
+
+`;
+
+});
+
+document.getElementById(
+'displayGrid'
+).innerHTML = html;
+
+}catch(err){
+
+console.log(err);
 
 }
+
+}
+
+
+
+// =====================================
+// LOAD VOICE
+// =====================================
+speechSynthesis.onvoiceschanged = () => {
+speechSynthesis.getVoices();
+};
 
 
 
@@ -622,9 +1121,9 @@ loadDisplay();
 // =====================================
 setInterval(()=>{
 
-  loadDashboard();
+loadDashboard();
 
-  loadDisplay();
+loadDisplay();
 
 },3000);
 
@@ -632,4 +1131,3 @@ setInterval(()=>{
 
 </body>
 </html>
-```
