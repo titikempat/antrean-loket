@@ -223,6 +223,7 @@ font-size:42px;
 
 </style>
 </head>
+
 <body>
 
 <header>
@@ -251,6 +252,7 @@ POLI KIA
 </div>
 
 <div class="card">
+
 <h2>KLASTER 3</h2>
 
 <button class="btn" onclick="ambil('POLI DEWASA')">
@@ -264,6 +266,7 @@ POLI LANSIA
 </div>
 
 <div class="card">
+
 <h2>KLASTER 4</h2>
 
 <button class="btn" onclick="ambil('POLI GIZI')">
@@ -277,6 +280,7 @@ POLI TB
 </div>
 
 <div class="card">
+
 <h2>KLASTER 5</h2>
 
 <button class="btn" onclick="ambil('POLI GIGI')">
@@ -298,6 +302,7 @@ DASHBOARD PETUGAS
 <table>
 
 <thead>
+
 <tr>
 <th>POLI</th>
 <th>TOTAL</th>
@@ -305,6 +310,7 @@ DASHBOARD PETUGAS
 <th>SISA</th>
 <th>AKSI</th>
 </tr>
+
 </thead>
 
 <tbody id="tbody">
@@ -332,10 +338,12 @@ DISPLAY TV ANTREAN
 <div class="display-grid" id="displayGrid"></div>
 
 <div class="running-text">
+
 <marquee>
 SELAMAT DATANG DI UPT PUSKESMAS MENTIKAN •
 MOHON MENUNGGU HINGGA NOMOR DIPANGGIL
 </marquee>
+
 </div>
 
 </div>
@@ -350,27 +358,57 @@ MOHON MENUNGGU HINGGA NOMOR DIPANGGIL
 
 <script>
 
-
-
-// ==========================================
-// URL WEB APP GAS
-// ==========================================
-const API = 'https://script.google.com/macros/s/AKfycbwo6qOPEUKLYzJExKcelALylF4jmAt8ynBfkGl1e_Aj9rPR-xJycM460WpVtyC2S3KN/exec';
+const API =
+'https://script.google.com/macros/s/AKfycbwo6qOPEUKLYzJExKcelALylF4jmAt8ynBfkGl1e_Aj9rPR-xJycM460WpVtyC2S3KN/exec';
 
 
 
-// ==========================================
+// =====================================
+// FETCH JSON
+// =====================================
+async function getJSON(url){
+
+  const response = await fetch(url,{
+    method:'GET',
+    cache:'no-store'
+  });
+
+  const text = await response.text();
+
+  try{
+
+    return JSON.parse(text);
+
+  }catch(err){
+
+    console.log(text);
+
+    throw new Error('Response bukan JSON');
+
+  }
+
+}
+
+
+
+// =====================================
 // AMBIL ANTREAN
-// ==========================================
+// =====================================
 async function ambil(poli){
 
   try{
 
-    const response = await fetch(
+    const res = await getJSON(
       `${API}?action=ambil&poli=${encodeURIComponent(poli)}`
     );
 
-    const res = await response.json();
+    if(!res || !res.nomor){
+
+      alert('Gagal mengambil antrean');
+
+      return;
+
+    }
 
     document.getElementById('printArea').innerHTML = `
 
@@ -401,13 +439,14 @@ async function ambil(poli){
     window.print();
 
     loadDashboard();
+
     loadDisplay();
 
   }catch(err){
 
-    alert('Gagal mengambil antrean');
-
     console.log(err);
+
+    alert('Gagal mengambil antrean');
 
   }
 
@@ -415,18 +454,16 @@ async function ambil(poli){
 
 
 
-// ==========================================
-// LOAD DASHBOARD
-// ==========================================
+// =====================================
+// DASHBOARD
+// =====================================
 async function loadDashboard(){
 
   try{
 
-    const response = await fetch(
+    const res = await getJSON(
       `${API}?action=dashboard`
     );
-
-    const res = await response.json();
 
     let html = '';
 
@@ -474,18 +511,16 @@ async function loadDashboard(){
 
 
 
-// ==========================================
-// PANGGIL ANTREAN
-// ==========================================
+// =====================================
+// PANGGIL
+// =====================================
 async function panggil(poli){
 
   try{
 
-    const response = await fetch(
+    const res = await getJSON(
       `${API}?action=panggil&poli=${encodeURIComponent(poli)}`
     );
-
-    const res = await response.json();
 
     if(!res){
 
@@ -495,15 +530,12 @@ async function panggil(poli){
 
     }
 
-    // STOP suara sebelumnya
     window.speechSynthesis.cancel();
 
-    // TEKS SUARA
-    const teks =
-      `Nomor antrean ${res.nomor}, menuju ${res.poli}`;
-
     const speech =
-      new SpeechSynthesisUtterance(teks);
+      new SpeechSynthesisUtterance(
+        `Nomor antrean ${res.nomor}, menuju ${res.poli}`
+      );
 
     speech.lang = 'id-ID';
 
@@ -531,18 +563,16 @@ async function panggil(poli){
 
 
 
-// ==========================================
-// LOAD DISPLAY TV
-// ==========================================
+// =====================================
+// DISPLAY TV
+// =====================================
 async function loadDisplay(){
 
   try{
 
-    const response = await fetch(
+    const res = await getJSON(
       `${API}?action=display`
     );
-
-    const res = await response.json();
 
     let html = '';
 
@@ -564,7 +594,9 @@ async function loadDisplay(){
 
     });
 
-    document.getElementById('displayGrid').innerHTML = html;
+    document.getElementById(
+      'displayGrid'
+    ).innerHTML = html;
 
   }catch(err){
 
@@ -576,18 +608,18 @@ async function loadDisplay(){
 
 
 
-// ==========================================
+// =====================================
 // AUTO LOAD
-// ==========================================
+// =====================================
 loadDashboard();
 
 loadDisplay();
 
 
 
-// ==========================================
+// =====================================
 // AUTO REFRESH
-// ==========================================
+// =====================================
 setInterval(()=>{
 
   loadDashboard();
@@ -595,8 +627,6 @@ setInterval(()=>{
   loadDisplay();
 
 },3000);
-
-
 
 </script>
 
